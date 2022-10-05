@@ -7,7 +7,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var Marker = L.marker([-23.417510791934347, -51.941398188500806], {title: 'Datlo'})
 
-// Marker.bindPopup("Trabalho")
+Marker.bindPopup("Datlo")
 
 Marker.addTo(map);
 
