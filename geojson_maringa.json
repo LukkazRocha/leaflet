@@ -1,4 +1,5 @@
-const geojsonFeature = {
+const geojsonMaringa = 
+{
     "type": "MultiPolygon",
     "coordinates": [
       [
