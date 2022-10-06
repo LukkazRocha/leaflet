@@ -1,16 +1,19 @@
-var map = L.map('map').setView([-23.417510791934347, -51.941398188500806], 11)
+var map = L.map('map').setView([-23.444144770940913, -51.873606412896784], 11)
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map)
+
+var baserelief = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {})
+
 
 var circle = L.circle([-23.403808603949706, -51.93971503965945], {
 	color: '#000000',
     fillColor: '#294F6D',
     fillOpacity: 0.5,
     radius: 750
-}).addTo(map);
+})
 
 var layer = L.geoJSON(geojsonCidades, {           
     fillOpacity: 0.5,
@@ -36,22 +39,27 @@ var layer = L.geoJSON(geojsonCidades, {
             })
         })		
     }
-}).addTo(map) 
+})
 
 var layerJob = L.geoJSON(geojsonEmpresas, {
 	onEachFeature: function (feature, layer) {
-		/* var dados = feature.properties    
-
-		layer.bindPopup('<h3 style = "text-align: center">Empresa </h3><p style = "color: #00F; font-weight: bold;">Name: ' + feature.properties[1].column_name + '<br>Value: ' + feature.properties[1].column_value + '</p>')	
-			
-		dados.forEach(function (dados, i) {
-			console.log(dados, i)
-		}) */
-
         var popupcontent = [];
         for (var prop in feature.properties) {
             popupcontent.push(feature.properties[prop].column_name + ": " + feature.properties[prop].column_value);
         }
         layer.bindPopup(popupcontent.join("<br />"));         
 	}
-}).addTo(map)
+})
+
+var baseMaps = {
+    'OpenStreetMap': osm,
+    'Shaded Relief': baserelief
+};
+
+var overMaps = {
+    'Cidades': layer,
+    'Empresas': layerJob,
+    'Circle': circle
+}
+
+L.control.layers(baseMaps, overMaps).addTo(map)
