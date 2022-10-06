@@ -6,7 +6,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map)
 
 var circle = L.circle([-23.403808603949706, -51.93971503965945], {
-    color: '#000000',
+	color: '#000000',
     fillColor: '#294F6D',
     fillOpacity: 0.5,
     radius: 750
@@ -17,7 +17,7 @@ var layer = L.geoJSON(geojsonCidades, {
     weight: 2,
     onEachFeature: function (feature, layer) {
         var name = feature.properties.name
-        layer.bindPopup(name)        
+        layer.bindPopup('<h2>' + name)        
         layer.on ('mouseover', function () {
             layer.openPopup()
             this.setStyle({
@@ -34,8 +34,24 @@ var layer = L.geoJSON(geojsonCidades, {
             this.setStyle({
                 'fillColor': '#fff618'
             })
-        })
+        })		
     }
 }).addTo(map) 
 
-var layerJob = L.geoJSON(geojsonEmpresas).addTo(map)
+var layerJob = L.geoJSON(geojsonEmpresas, {
+	onEachFeature: function (feature, layer) {
+		/* var dados = feature.properties    
+
+		layer.bindPopup('<h3 style = "text-align: center">Empresa </h3><p style = "color: #00F; font-weight: bold;">Name: ' + feature.properties[1].column_name + '<br>Value: ' + feature.properties[1].column_value + '</p>')	
+			
+		dados.forEach(function (dados, i) {
+			console.log(dados, i)
+		}) */
+
+        var popupcontent = [];
+        for (var prop in feature.properties) {
+            popupcontent.push(feature.properties[prop].column_name + ": " + feature.properties[prop].column_value);
+        }
+        layer.bindPopup(popupcontent.join("<br />"));         
+	}
+}).addTo(map)
