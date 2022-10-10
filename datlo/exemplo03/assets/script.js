@@ -45,9 +45,3 @@ function checkLayer(data, layerId) {
 }); */
 
 L.control.layers(baseMaps, overMaps).addTo(map)
-
-/* dadosCamadas.data.layers.forEach(function (layer) {
-    layer.features.forEach(function (layer) {
-        console.log(layer.properties)
-    })
-}) */
