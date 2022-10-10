@@ -1,6 +1,4 @@
-import municipios from '../json/Municipios.json' assert {type: 'json'}
-import empresas from '../json/Empresas.json' assert {type: 'json'}
-import data from '../json/Lista_de_camadas.json' assert {type: 'json'}
+import listaCamadas from '../json/Lista_de_camadas.json' assert {type: 'json'}
 import dadosCamadas from '../json/Dados_das_camadas.json' assert {type: 'json'}
 
 const lat = 23.444144770940913
@@ -10,59 +8,46 @@ const map = L.map('map').setView([-lat, -lng], 11)
 var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map)
+}).addTo(map);
 
+var baseMaps = {};
 
+var overMaps = {};
 
-/* for(let index in data.data.layers) {
-    console.log(data.data.layers[index])
-}
- */
-// data.data.layers.forEach(function (layer) {
-//     console.log(layer)
-//     console.log(layer.name)
-// });
-/* 
-for(let i = 0; i < data.data.layers.length; i++) {
-    console.log(data.data.layers[i])
-} */
+listaCamadas.data.layers.forEach(function (layer) {
+    // const dataLayer = dadosCamadas.data.layers.find(function(data) {
+    //     return data.id === layer.id;
+    //   });
 
-var baseMaps = {
-    'OpenStreetMap': osm,    
-};
+      const dataLayer = dadosCamadas.data.layers.find(data => data.id === layer.id);
+      console.log(dataLayer);
 
-var overMaps = {}
+    //   var geoLayer = L.geoJSON(dataLayer)
+    //   overMaps[layer.name] = geoLayer;
 
-data.data.layers.forEach(function (layer) {
-
-    var geoLayer = L.geoJSON(municipios, {           
-        fillOpacity: 0.5,
-        weight: 2,
-        onEachFeature: function (feature, layer) {
-            var name = feature.properties.name
-            layer.bindPopup('<h2>' + name)        
-            layer.on ('mouseover', function () {
-                layer.openPopup()
-                this.setStyle({
-                    'fillColor': '#fff618'
-                })
-            })
-            layer.on ('mouseout', function () {
-                layer.closePopup()
-                this.setStyle({
-                    'fillColor': null
-                })
-            })
-            layer.on ('click', function () {
-                this.setStyle({
-                    'fillColor': '#fff618'
-                })
-            })		
-        }
-    })
-
-    overMaps[layer.name] = geoLayer;
+    //  const dataLayer = dadosCamadas.data.layers.find(isLayer, layer.id);
+    //  console.log(dataLayer);
 });
 
+function isLayer(data) {
+  return data.id === '6334855da45eef8880bfa3d1'
+}
+
+function checkLayer(data, layerId) {
+    return data.id === layerId; 
+}
+
+/* dadosCamadas.data.layers.forEach(function (layer) {   
+
+    var geoLayer = L.geoJSON(layer.features)
+    console.log(layer)   
+
+}); */
 
 L.control.layers(baseMaps, overMaps).addTo(map)
+
+/* dadosCamadas.data.layers.forEach(function (layer) {
+    layer.features.forEach(function (layer) {
+        console.log(layer.properties)
+    })
+}) */
