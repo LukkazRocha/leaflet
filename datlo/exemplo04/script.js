@@ -17,12 +17,25 @@ listaCamadas.data.layers.forEach(function (layer) {
 
     const dataLayer = dadosCamadas.data.layers.find(function (data) {
         return data.id === layer.id
-    });    
+    });     
 
-    console.log(dataLayer);
 
-    var geoLayer = L.geoJSON(dataLayer)
+    const typeLayer = layer.type
+    var myStyles
+
+    if (typeLayer === "POLYGON") {
+        myStyles = layer.customSettings.symbology
+        console.log(myStyles)
+    } else if (typeLayer === "POINT"){
+        myStyles = layer.customSettings.symbology
+        console.log(myStyles)
+    }
+
+    var geoLayer = L.geoJSON(dataLayer, {
+        style: myStyles
+    })
     overMaps[layer.name] = geoLayer
-})
+    
+});
 
 L.control.layers(baseMaps, overMaps).addTo(map)
