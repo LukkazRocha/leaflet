@@ -36,8 +36,7 @@
                 "#78c679",
                 "#31a354",
                 "#006837"
-              ],
-              "color": "#ffffcc",
+              ],              
               "stroke": {
                 "color": {
                   "value": "#9B9B9BFF",
@@ -45,7 +44,7 @@
                 },
                 "width": 0.5
               },
-              "fillOpacity": 1
+              "fillOpacity": 0.5
             }
           }}
       ]

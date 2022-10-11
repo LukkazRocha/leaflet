@@ -13,27 +13,63 @@ var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 var baseMaps = {};
 var overMaps = {};
 
+// const empresas = dadosCamadas.data.layers.find(function (data) {
+//     return data.id === "6334855da45eef8880bfa3d1"
+// }); 
+
 listaCamadas.data.layers.forEach(function (layer) {
 
     const dataLayer = dadosCamadas.data.layers.find(function (data) {
         return data.id === layer.id
-    });     
+    });      
 
+    let styleLayer = layer.customSettings.symbology
+    console.log(styleLayer)
+    // console.log(styleLayer.colorScale)
+    // console.log(styleLayer.colorScale[0])
 
-    const typeLayer = layer.type
-    var myStyles
+    // for (let color in styleLayer.colorScale) {
+    //     console.log(styleLayer.colorScale[color])
+    // }
 
-    if (typeLayer === "POLYGON") {
-        myStyles = layer.customSettings.symbology
-        console.log(myStyles)
-    } else if (typeLayer === "POINT"){
-        myStyles = layer.customSettings.symbology
-        console.log(myStyles)
-    }
 
     var geoLayer = L.geoJSON(dataLayer, {
-        style: myStyles
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup('<h3>' + feature.properties.name)
+            layer.on ('mouseover', function () {
+                this.setStyle({
+                    'fillColor': '#006837'
+                })
+            })
+            layer.on ('mouseout', function () {
+                this.setStyle({
+                    'fillColor': styleLayer.colorScale[0]
+                })
+            })
+
+            var popupcontent = [];
+            for (var prop in feature.properties) {
+                if (feature.properties[prop].column_name !== undefined) {
+                    popupcontent.push('<strong>' + feature.properties[prop].column_name + ":</strong> " + '<em>' + feature.properties[prop].column_value + '</em>');
+                    layer.bindPopup(popupcontent.join("<br />")); 
+                }
+            }
+        }
     })
+
+    function styles (features) {
+        
+        if (layer.type === "POLYGON") {
+            if (styleLayer.colorScale !== undefined || styleLayer.colorScale > 0) {
+                features.setStyle({
+                    'fillColor': styleLayer.colorScale[0]
+                })
+            }            
+        }        
+    }
+
+    geoLayer.eachLayer(styles);
+
     overMaps[layer.name] = geoLayer
     
 });

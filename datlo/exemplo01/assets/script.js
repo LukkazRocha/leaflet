@@ -22,8 +22,7 @@ map.on('click', function(e) {
 var circle = L.circle([-23.403808603949706, -51.93971503965945], {
 	color: '#000000',
     fillColor: '#294F6D',
-    fillOpacity: 0.5,
-    radius: 750     
+    fillOpacity: 0.5
 }).addTo(map)
 circle.bindPopup('<h4>UEM</h4>')
 
