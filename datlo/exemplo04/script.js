@@ -51,7 +51,7 @@ listaCamadas.data.layers.forEach(function (layer) {
             for (var prop in feature.properties) {
                 if (feature.properties[prop].column_name !== undefined) {
                     popupcontent.push('<strong>' + feature.properties[prop].column_name + ":</strong> " + '<em>' + feature.properties[prop].column_value + '</em>');
-                    layer.bindPopup(popupcontent.join("<br />")); 
+                    layer.bindPopup(popupcontent.join("<br />"));
                 }
             }
         }
@@ -60,13 +60,11 @@ listaCamadas.data.layers.forEach(function (layer) {
     function styles (features) {
         
         if (layer.type === "POLYGON") {
-            if (styleLayer.colorScale !== undefined || styleLayer.colorScale > 0) {
-                features.setStyle({
-                    'fillColor': styleLayer.colorScale[0]
-                })
-            }            
+            features.setStyle({
+                'fillColor': styleLayer.colorScale[0]
+            })
         }        
-    }
+    }  
 
     geoLayer.eachLayer(styles);
 
