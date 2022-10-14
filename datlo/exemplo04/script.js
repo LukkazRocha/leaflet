@@ -46,7 +46,8 @@ listaCamadas.data.layers.forEach(function (layer) {
                 layer.bindPopup('<h3>' + feature.properties.name)
                 layer.on ('mouseover', function () {
                     this.setStyle({
-                        'fillColor': '#006837'
+                        'fillColor': '#006837',
+                        'color': '#F00'
                     })
                 })
                 layer.on ('mouseout', function () {
@@ -58,15 +59,14 @@ listaCamadas.data.layers.forEach(function (layer) {
         })
         geoLayer.eachLayer(styles);
         overMaps[layer.name] = geoLayer
-    }
-
-    
+    }   
 
     function styles (features) {
         
         if (styleLayer.colorScale !== undefined) {
             features.setStyle({
-                'fillColor': styleLayer.colorScale[0]
+                'fillColor': styleLayer.colorScale[0],
+                'color': '#000'
             })
         }        
     }  

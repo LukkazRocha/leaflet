@@ -5,7 +5,7 @@ const lat = 23.444144770940913
 const lng = 51.873606412896784
 const map = L.map('map').setView([-lat, -lng], 11)
 
-var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
@@ -22,8 +22,8 @@ listaCamadas.data.layers.forEach(function (layer) {
       const dataLayer = dadosCamadas.data.layers.find(data => data.id === layer.id);
       console.log(dataLayer);
 
-    //   var geoLayer = L.geoJSON(dataLayer)
-    //   overMaps[layer.name] = geoLayer;
+      var geoLayer = L.geoJSON(dataLayer)
+      overMaps[layer.name] = geoLayer;
 
     //  const dataLayer = dadosCamadas.data.layers.find(isLayer, layer.id);
     //  console.log(dataLayer);
